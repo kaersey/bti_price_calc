@@ -1,39 +1,101 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
 <meta charset="UTF-8">
 <title>Калькулятор цены</title>
-   <link rel="icon" href="/favicon.ico" type="image/x-icon">
 <style>
-  body { font-family: system-ui, sans-serif; background: #f4f5f7; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; box-sizing: border-box; }
-  .card { background: #fff; padding: 24px; border-radius: 16px; width: 100%; max-width: 440px; box-shadow: 0 12px 30px rgba(0,0,0,.12); }
-  h1 { font-size: 20px; margin: 0 0 20px; text-align: center; }
-  label { font-size: 13px; color: #555; display: block; margin: 12px 0 4px; }
-  select, input[type="number"] { width: 100%; padding: 9px 12px; border-radius: 8px; border: 1px solid #d1d5db; font-size: 15px; box-sizing: border-box; }
-  .radio-group { display: flex; gap: 24px; margin: 8px 0 16px; }
-  .radio-group label { font-size: 14px; display: flex; align-items: center; gap: 6px; }
-  .hidden { display: none !important; }
-  .current-price { font-size: 22px; font-weight: 600; margin: 16px 0 8px; text-align: center; color: #1e40af; }
-  .result { font-size: 26px; font-weight: 700; margin: 24px 0 12px; text-align: center; color: #1e40af; }
-  .note { font-size: 12px; color: #666; text-align: center; margin-top: 8px; }
-  .checkbox label { font-size: 14px; display: flex; align-items: center; gap: 8px; margin: 12px 0; }
-  .inner-block { margin-left: 16px; padding-left: 12px; border-left: 3px solid #e5e7eb; }
-  button.reset { width: 100%; padding: 12px; margin-top: 20px; background: #ef4444; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; }
-  button.reset:hover { background: #dc2626; }
-  button.add-to-cart { width: 100%; padding: 12px; margin-top: 16px; background: #3b82f6; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; }
-  button.add-to-cart:hover { background: #2563eb; }
-  #cart { margin-top: 24px; border-top: 1px solid #e5e7eb; padding-top: 16px; }
-  .cart-item { background: #f9fafb; padding: 12px; margin-bottom: 12px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-  .cart-item h3 { font-size: 14px; margin: 0 0 8px; font-weight: 600; }
-  .cart-item p { font-size: 12px; margin: 4px 0; color: #555; }
-  .cart-item .remove { background: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 12px; float: right; }
-  .cart-item .remove:hover { background: #dc2626; }
+  body {
+    font-family: system-ui, sans-serif;
+    background: #f4f5f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  .card {
+    background: #fff;
+    padding: 24px;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 12px 30px rgba(0,0,0,.12);
+  }
+  h1 {
+    font-size: 20px;
+    margin: 0 0 20px;
+    text-align: center;
+  }
+  label {
+    font-size: 13px;
+    color: #555;
+    display: block;
+    margin: 12px 0 4px;
+  }
+  select, input[type="number"], input[type="text"] {
+    width: 100%;
+    padding: 9px 12px;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    font-size: 15px;
+    box-sizing: border-box;
+  }
+  .radio-group {
+    display: flex;
+    gap: 24px;
+    margin: 8px 0 16px;
+  }
+  .radio-group label {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .hidden {
+    display: none !important;
+  }
+  .result {
+    font-size: 26px;
+    font-weight: 700;
+    margin: 24px 0 12px;
+    text-align: center;
+    color: #1e40af;
+  }
+  .note {
+    font-size: 12px;
+    color: #666;
+    text-align: center;
+    margin-top: 8px;
+  }
+  .checkbox label {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 12px 0;
+  }
+  button.reset {
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    background: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  button.reset:hover {
+    background: #dc2626;
+  }
 </style>
- </head>
+</head>
 <body>
 
 <div class="card">
-  <h1>Калькулятор цены</h1>
+  <h1>💸 Калькулятор цены</h1>
 
   <label>Заказчик</label>
   <select id="clientType">
@@ -46,14 +108,11 @@
     <option value="">— выберите —</option>
     <option value="land">Земельные участки</option>
     <option value="building">Объекты капитального строительства</option>
-    <option value="premises">Помещения</option>
-    <option value="geodesy">Геодезические работы</option>
   </select>
 
   <div id="serviceBlock" class="hidden">
     <label>Услуга</label>
     <select id="service"></select>
-    <div id="serviceNote" class="note hidden" style="text-align:left; margin-top:4px; font-size:12px; white-space: pre-wrap;"></div>
   </div>
 
   <div id="extraVolumeBlock" class="hidden">
@@ -61,18 +120,8 @@
     <input type="number" id="extraVolume" min="0" value="0">
   </div>
 
-  <div id="extraPointsBlock" class="hidden">
-    <label id="extraPointsLabel">Дополнительные точки</label>
-    <input type="number" id="extraPoints" min="0" value="0">
-  </div>
-
-  <div id="extraObjectsBlock" class="hidden">
-    <label id="extraObjectsLabel">Дополнительные объекты</label>
-    <input type="number" id="extraObjects" min="0" value="0">
-  </div>
-
   <div id="extraPlotsBlock" class="hidden">
-    <label>Дополнительные участки</label>
+    <label id="extraPlotsLabel">Дополнительные участки</label>
     <input type="number" id="extraPlots" min="0" value="0">
   </div>
 
@@ -81,21 +130,8 @@
     <input type="number" id="km" min="0" value="0">
   </div>
 
-  <div id="stakesBlock" class="hidden">
-    <label class="checkbox"><input type="checkbox" id="stakesCheck"> Нужны колья (по 200 ₽/шт)</label>
-    <div id="stakesCountBlock" class="hidden">
-      <label>Количество кольев</label>
-      <input type="number" id="stakesCount" min="1" value="1">
-      <div id="stakesSum" class="note" style="text-align:left;">Сумма по кольям: 0 ₽</div>
-    </div>
-  </div>
-
-  <div id="outingBlock" class="hidden">
-    <label class="checkbox"><input type="checkbox" id="outing"> Нужен выезд (+1000 ₽)</label>
-  </div>
-
   <div id="extractsBlock" class="hidden">
-    <label>Нужны выписки ЕГРН? <small>(500 ₽ / шт)</small></label>
+    <label>Нужны выписки ЕГРН?</label>
     <div class="radio-group">
       <label><input type="radio" name="extracts" value="yes"> Да</label>
       <label><input type="radio" name="extracts" value="no" checked> Нет</label>
@@ -107,7 +143,7 @@
   </div>
 
   <div id="eregBlock" class="hidden">
-    <label>Нужна электронная регистрация? <small>(2000 ₽ / объект)</small></label>
+    <label>Нужна электронная регистрация?</label>
     <div class="radio-group">
       <label><input type="radio" name="ereg" value="yes"> Да</label>
       <label><input type="radio" name="ereg" value="no" checked> Нет</label>
@@ -131,58 +167,21 @@
   </div>
 
   <div id="execSurveyBlock" class="hidden">
-    <label class="checkbox"><input type="checkbox" id="execSurvey"> Исполнительная съёмка / координаты (-30% к стоимости)</label>
+    <label class="checkbox"><input type="checkbox" id="execSurvey"> Исполнительная съёмка / координаты (+30% к стоимости)</label>
   </div>
 
   <div id="notificationBlock" class="hidden">
     <label class="checkbox"><input type="checkbox" id="notification"> Уведомления (+5000 ₽)</label>
   </div>
 
-  <div id="techPlanCheckBlock" class="hidden">
-    <label class="checkbox"><input type="checkbox" id="techPlanCheck"> Технический план</label>
-    <div id="innerTechPlan" class="inner-block hidden">
-      <label>Доп. объём (кв.м) — база 150 кв.м</label>
-      <input type="number" id="innerTechVolume" min="0" value="0">
-      <div id="innerTechSum" class="note" style="text-align:left;">Сумма: 0 ₽</div>
-    </div>
-  </div>
-
-  <div id="techPassportCheckBlock" class="hidden">
-    <label class="checkbox"><input type="checkbox" id="techPassportCheck"> Технический паспорт</label>
-    <div id="innerTechPassport" class="inner-block hidden">
-      <label>Доп. объём (кв.м) — база 150 кв.м</label>
-      <input type="number" id="innerPassportVolume" min="0" value="0">
-      <div id="innerPassportSum" class="note" style="text-align:left;">Сумма: 0 ₽</div>
-    </div>
-  </div>
-
-  <div id="blocksCountBlock" class="hidden">
-    <label>Количество блоков <small>(от 2 блоков — +5000 ₽ / блок сверх 2)</small></label>
-    <input type="number" id="blocksCount" min="2" value="2">
-  </div>
-
-  <div id="garageRegisteredBlock" class="hidden">
-    <label class="checkbox"><input type="checkbox" id="garageRegistered"> Гараж стоит на учёте (-2000 ₽)</label>
-  </div>
-
-  <div class="current-price hidden">
-    Текущая услуга: <span id="currentTotal">0</span> ₽
-  </div>
-
-  <button class="add-to-cart" onclick="addToCart()">Добавить в расчёт</button>
-
-  <div id="cart" class="hidden"></div>
-
-  <div id="legalExtraBlock" class="hidden">
-    <label class="checkbox">
-      <input type="checkbox" id="legalExtra"> +10% за юридическое лицо (на итог)
-    </label>
-  </div>
+  <label class="checkbox">
+    <input type="checkbox" id="legalExtra"> +10% за юридическое лицо (на итог)
+  </label>
 
   <div class="result">
     Итого: <span id="total">0</span> ₽
   </div>
-  <div class="note">ГСМ: 50 ₽ / км</div>
+  <div class="note">ГСМ: 50 ₽ / км • выписка ЕГРН: 500 ₽ / шт • эл. регистрация: 2000 ₽ / объект</div>
 
   <button class="reset" onclick="resetForm()">Сбросить</button>
 </div>
@@ -197,67 +196,126 @@ const MEJPLAN_PRICE = 8000;
 const HEATED_PRICE = 1500;
 const NOTIFICATION_PRICE = 5000;
 const LEGAL_EXTRA = 1.10;
-const BLOCK_EXTRA_PRICE = 5000;
-const GARAGE_DISCOUNT = -2000;
-const OUTING_PRICE = 1000;
-const STAKES_PRICE = 200;
-const INNER_TECH_BASE = {fiz:10000, jur:12000};
-const INNER_TECH_VOL_PRICE = 30;
-const INNER_PASSPORT_BASE = {fiz:10000, jur:12000};
-const INNER_PASSPORT_VOL_PRICE = 20;
 
-let cart = [];
-
-// priceList
+// Цены для физ / юр
 const priceList = {
   land: {
-    clarification: { name: "Межевой план — уточнение границ участка", base: {fiz:10000,jur:15000}, volumeBase:20, volumeUnit:"соток", volumePrice:150, hasExtracts:true, hasEreg:true, hasKm:true, hasAgreement:false, hasExtraPlots:false },
-    registration: { name: "Межевой план — для постановки на учёт", base: {fiz:8000,jur:8000}, volumeBase:20, volumeUnit:"соток", volumePrice:150, hasExtracts:true, hasEreg:false, hasKm:true, hasAgreement:false, hasExtraPlots:false },
-    division: { name: "Межевой план — раздел / объединение / перераспределение", base: {fiz:10000,jur:12000}, volumeBase:20, volumeUnit:"соток", volumePrice:150, extraPlotsPrice:{fiz:2500,jur:6000}, hasExtracts:true, hasEreg:true, hasKm:true, hasAgreement:true, hasExtraPlots:true },
-    schemeKPT: { name: "Схема на КПТ", base: {fiz:7000,jur:9000}, volumeBase:20, volumeUnit:"соток", volumePrice:150, hasExtracts:true, hasEreg:false, hasKm:true, hasAgreement:false, hasExtraPlots:false },
-    errorCorrection: { name: "Заключение — исправление реестровой ошибки", base: {fiz:15000,jur:18000}, volumeBase:20, volumeUnit:"соток", volumePrice:150, hasExtracts:true, hasEreg:false, hasKm:true, hasMejPlan:true, hasAgreement:false, hasExtraPlots:false }
+    clarification: {
+      name: "Межевой план — уточнение границ участка",
+      base: { fiz: 10000, jur: 15000 },
+      volumeBase: 20, volumeUnit: "соток", volumePrice: 150,
+      hasExtracts: true, hasEreg: true, hasKm: true,
+      hasAgreement: false, hasExtraPlots: false
+    },
+    registration: {
+      name: "Межевой план — для постановки на учёт",
+      base: { fiz: 8000, jur: 8000 },
+      volumeBase: 20, volumeUnit: "соток", volumePrice: 150,
+      hasExtracts: true, hasEreg: false, hasKm: true,
+      hasAgreement: false, hasExtraPlots: false
+    },
+    division: {
+      name: "Межевой план — раздел / объединение / перераспределение",
+      base: { fiz: 10000, jur: 12000 },
+      volumeBase: 20, volumeUnit: "соток", volumePrice: 150,
+      extraPlotsPrice: { fiz: 2500, jur: 6000 },
+      hasExtracts: true, hasEreg: true, hasKm: true,
+      hasAgreement: true, hasExtraPlots: true
+    },
+    schemeKPT: {
+      name: "Схема на КПТ",
+      base: { fiz: 7000, jur: 9000 },
+      volumeBase: 20, volumeUnit: "соток", volumePrice: 150,
+      hasExtracts: true, hasEreg: false, hasKm: true,
+      hasAgreement: false, hasExtraPlots: false
+    },
+    errorCorrection: {
+      name: "Заключение — исправление реестровой ошибки",
+      base: { fiz: 15000, jur: 18000 },
+      volumeBase: 20, volumeUnit: "соток", volumePrice: 150,
+      hasExtracts: true, hasEreg: false, hasKm: true,
+      hasMejPlan: true, hasAgreement: false, hasExtraPlots: false
+    }
   },
   building: {
-    techPlanBuilding: { name: "Технический план на здание", base: {fiz:10000,jur:12000}, volumeBase:150, volumeUnit:"кв.м", volumePrice:30, hasExtracts:true, hasEreg:true, hasKm:true, hasAgreement:false, hasExtraPlots:false },
-    techPlanAttachment: { name: "Технический план — привязка к ЗУ", base: {fiz:9000,jur:12000}, volumeBase:500, volumeUnit:"кв.м", volumePrice:15, volumeThreshold:10000, volumeDiscountAfterThreshold:0.5, hasExtracts:true, hasEreg:false, hasKm:true, hasAgreement:false, hasExtraPlots:false, volumeLabel: "Доп. объём (кв.м) — база площади застройки 500 кв.м" },
-    techPassport: { name: "Технический паспорт на здание", base: {fiz:10000,jur:12000}, volumeBase:150, volumeUnit:"кв.м", volumePrice:20, hasExtracts:false, hasEreg:false, hasKm:true, hasHeatedArea:true, hasAgreement:false, hasExtraPlots:false },
-    techPlanGarage: { name: "Технический план на гараж", base: {fiz:8000,jur:8000}, volumeBase:20, volumeUnit:"кв.м", volumePrice:15, hasExtracts:false, hasEreg:false, hasKm:true, hasAgreement:false, hasExtraPlots:false },
-    techPlanLinear: { name: "Технический план на линейный объект", base: {fiz:12000,jur:12000}, volumeBase:50, volumeUnit:"м", volumePrice:8.5, hasExecSurvey:true, hasExtracts:false, hasEreg:false, hasKm:true, hasAgreement:false, hasExtraPlots:false, volumeLabel: "Доп. объём (м) — база протяженности 50 м", execSurveyLabel: "Исполнительная съёмка / координаты (-30% к стоимости)" },
-    certificateInBoundaries: { name: "Справка о нахождении в границах ЗУ", base: {fiz:3000,jur:3500}, noVolume:true, hasExtracts:false, hasEreg:false, hasKm:true, hasAgreement:false, hasExtraPlots:false },
-    certificateMovable: { name: "Справка движимое/недвижимое имущество", base: {fiz:8000,jur:8000}, noVolume:true, hasExtracts:false, hasEreg:false, hasKm:true, hasAgreement:false, hasExtraPlots:false },
-    inspectionNoDemolition: { name: "Акт обследования (без проекта сноса)", base: {fiz:8000,jur:8000}, noVolume:true, hasNotification:true, hasExtracts:false, hasEreg:false, hasKm:true, hasAgreement:false, hasExtraPlots:false },
-    inspectionWithDemolition: { name: "Акт обследования (с проектом сноса)", base: {fiz:30000,jur:30000}, noVolume:true, hasExtracts:false, hasEreg:false, hasKm:true, hasAgreement:false, hasExtraPlots:false },
-    conclusionConversion: { name: "Техническое заключение для перевода здания из нежилого в жилое / из жилого в нежилое", base: {fiz:17000,jur:17000}, noVolume:true, hasInnerTechPlan:true, hasExtracts:false, hasEreg:false, hasKm:true, hasAgreement:false, hasExtraPlots:false },
-    conclusionDivision: { name: "Техническое заключение (раздел на блоки)", base: {fiz:17000,jur:20000}, noVolume:true, hasInnerTechPlan:true, hasInnerTechPassport:true, hasBlocksCount:true, hasExtracts:false, hasEreg:false, hasKm:true, hasAgreement:false, hasExtraPlots:false },
-    garageAmnesty: { name: "КОМПЛЕКС гаражная амнистия", base: {fiz:18000,jur:18000}, noVolume:true, hasExtracts:false, hasEreg:false, hasKm:true, hasGarageRegistered:true, hasAgreement:false, hasExtraPlots:false, note: "Схема на КПТ — 6000 ₽, Межевой план — 6000 ₽, Технический план — 6000 ₽" }
-  },
-  premises: {
-    nonResPremiseTechPlan: { name: "Технический план — нежилое помещение", base: {fiz:10000, jur:10000}, volumeBase:40, volumeUnit:"кв.м", volumePrice:30, hasKm:true },
-    nonResPremiseTechPassport: { name: "Технический паспорт — нежилое помещение", base: {fiz:10000, jur:10000}, volumeBase:40, volumeUnit:"кв.м", volumePrice:30, hasKm:true },
-    resPremiseTechPlan: { name: "Технический план — жилое помещение", base: {fiz:6000, jur:7000}, volumeBase:60, volumeUnit:"кв.м", volumePrice:20, hasOuting:true, hasKm:true },
-    resPremiseTechPassport: { name: "Технический паспорт — жилое помещение", base: {fiz:5000, jur:7000}, volumeBase:60, volumeUnit:"кв.м", volumePrice:20, hasOuting:true, hasKm:true },
-    complexNonResRedevInNonRes: { name: "КОМПЛЕКС Перепланировка — нежилое помещение (в нежилом здании)", base: {fiz:20000, jur:20000}, volumeBase:40, volumeUnit:"кв.м", volumePrice:30, hasKm:true, note: "Техническое заключение, Технический паспорт ПОСЛЕ, Технический план" },
-    complexNonResRedevInMKD: { name: "КОМПЛЕКС Перепланировка — нежилое помещение (в МКД)", base: {fiz:40000, jur:40000}, volumeBase:40, volumeUnit:"кв.м", volumePrice:30, hasKm:true, note: "Техническое заключение, Технические паспорта ДО/ПОСЛЕ, Технический план" },
-    complexApartmentRedev: { name: "КОМПЛЕКС Перепланировка — квартира", base: {fiz:30000, jur:30000}, volumeBase:60, volumeUnit:"кв.м", volumePrice:20, hasKm:true, note: "Техническое заключение, Технические паспорта ДО/ПОСЛЕ, Технический план\nпод ключ + 70000р." }
-  },
-  geodesy: {
-    pointsOut: {
-      name: "Вынос точек",
-      base: {fiz:5000, jur:7000},
-      volumeBase: 20,               // ← добавлено
-      volumeUnit: "соток",          // ← добавлено
-      volumePrice: 150,             // ← добавлено (если не используется — можно 0, но лучше оставить)
-      volumeBaseArea: 20, volumeUnitArea: "соток", volumePriceArea: 150,
-      volumeBasePoints: 4, volumeUnitPoints: "шт.", volumePricePoints: 500,
-      hasStakes: true,
-      hasKm: true
+    techPlanBuilding: {
+      name: "Технический план на здание",
+      base: { fiz: 10000, jur: 12000 },
+      volumeBase: 150, volumeUnit: "кв.м", volumePrice: 30,
+      hasExtracts: true, hasEreg: true, hasKm: true,
+      hasAgreement: false, hasExtraPlots: false
     },
-    topoSurvey: {
-      name: "Топографическая съёмка",
-      base: {fiz:10000, jur:10000},
-      volumeBaseArea: 20, volumeUnitArea: "соток", volumePriceArea: 150,
-      volumeBaseObjects: 1, volumeUnitObjects: "объект", volumePriceObjects: 1000,
-      hasKm: true
+    techPlanAttachment: {
+      name: "Технический план — привязка к ЗУ",
+      base: { fiz: 9000, jur: 12000 },
+      volumeBase: 500, volumeUnit: "кв.м", volumePrice: 15,
+      volumeThreshold: 10000, volumeDiscountAfterThreshold: 0.5,
+      hasExtracts: true, hasEreg: false, hasKm: true,
+      hasAgreement: false, hasExtraPlots: false
+    },
+    techPassport: {
+      name: "Технический паспорт на здание",
+      base: { fiz: 10000, jur: 12000 },
+      volumeBase: 150, volumeUnit: "кв.м", volumePrice: 20,
+      hasExtracts: false, hasEreg: false, hasKm: true,
+      hasHeatedArea: true, hasAgreement: false, hasExtraPlots: false
+    },
+    techPlanGarage: {
+      name: "Технический план на гараж",
+      base: { fiz: 8000, jur: 8000 },
+      volumeBase: 20, volumeUnit: "кв.м", volumePrice: 15,
+      hasExtracts: false, hasEreg: false, hasKm: true,
+      hasAgreement: false, hasExtraPlots: false
+    },
+    techPlanLinear: {
+      name: "Технический план на линейный объект",
+      base: { fiz: 12000, jur: 12000 },
+      volumeBase: 50, volumeUnit: "м", volumePrice: 8.5,
+      hasExecSurvey: true, hasExtracts: false, hasEreg: false, hasKm: true,
+      hasAgreement: false, hasExtraPlots: false
+    },
+    certificateInBoundaries: {
+      name: "Справка о нахождении в границах ЗУ",
+      base: { fiz: 3000, jur: 3500 },
+      noVolume: true,
+      hasExtracts: false, hasEreg: false, hasKm: true,
+      hasAgreement: false, hasExtraPlots: false
+    },
+    certificateMovable: {
+      name: "Справка движимое/недвижимое имущество",
+      base: { fiz: 8000, jur: 8000 },
+      noVolume: true,
+      hasExtracts: false, hasEreg: false, hasKm: true,
+      hasAgreement: false, hasExtraPlots: false
+    },
+    inspectionNoDemolition: {
+      name: "Акт обследования (без проекта сноса)",
+      base: { fiz: 8000, jur: 8000 },
+      noVolume: true,
+      hasNotification: true, hasExtracts: false, hasEreg: false, hasKm: true,
+      hasAgreement: false, hasExtraPlots: false
+    },
+    inspectionWithDemolition: {
+      name: "Акт обследования (с проектом сноса)",
+      base: { fiz: 30000, jur: 30000 },
+      noVolume: true,
+      hasExtracts: false, hasEreg: false, hasKm: true,
+      hasAgreement: false, hasExtraPlots: false
+    },
+    conclusionConversion: {
+      name: "Техническое заключение для перевода здания из нежилого в жилое / из жилого в нежилое",
+      base: { fiz: 17000, jur: 17000 },
+      noVolume: true,
+      hasInnerTechPlan: true, hasExtracts: false, hasEreg: false, hasKm: true,
+      hasAgreement: false, hasExtraPlots: false
+    },
+    conclusionDivision: {
+      name: "Техническое заключение (раздел на блоки)",
+      base: { fiz: 17000, jur: 20000 },
+      noVolume: true,
+      hasInnerTechPlan: true, hasInnerTechPassport: true,
+      hasExtracts: false, hasEreg: false, hasKm: true,
+      hasAgreement: false, hasExtraPlots: false
     }
   }
 };
@@ -267,27 +325,13 @@ const clientTypeSelect = document.getElementById("clientType");
 const workTypeSelect = document.getElementById("workType");
 const serviceBlock = document.getElementById("serviceBlock");
 const serviceSelect = document.getElementById("service");
-const serviceNote = document.getElementById("serviceNote");
 const extraVolumeBlock = document.getElementById("extraVolumeBlock");
 const extraVolumeLabel = document.getElementById("extraVolumeLabel");
 const extraVolumeInput = document.getElementById("extraVolume");
-const extraPointsBlock = document.getElementById("extraPointsBlock");
-const extraPointsLabel = document.getElementById("extraPointsLabel");
-const extraPointsInput = document.getElementById("extraPoints");
-const extraObjectsBlock = document.getElementById("extraObjectsBlock");
-const extraObjectsLabel = document.getElementById("extraObjectsLabel");
-const extraObjectsInput = document.getElementById("extraObjects");
 const extraPlotsBlock = document.getElementById("extraPlotsBlock");
 const extraPlotsInput = document.getElementById("extraPlots");
 const kmBlock = document.getElementById("kmBlock");
 const kmInput = document.getElementById("km");
-const stakesBlock = document.getElementById("stakesBlock");
-const stakesCheck = document.getElementById("stakesCheck");
-const stakesCountBlock = document.getElementById("stakesCountBlock");
-const stakesCountInput = document.getElementById("stakesCount");
-const stakesSum = document.getElementById("stakesSum");
-const outingBlock = document.getElementById("outingBlock");
-const outingCheck = document.getElementById("outing");
 const extractsBlock = document.getElementById("extractsBlock");
 const extractsRadios = document.getElementsByName("extracts");
 const extractsCountBlock = document.getElementById("extractsCountBlock");
@@ -306,396 +350,175 @@ const execSurveyBlock = document.getElementById("execSurveyBlock");
 const execSurveyCheck = document.getElementById("execSurvey");
 const notificationBlock = document.getElementById("notificationBlock");
 const notificationCheck = document.getElementById("notification");
-const techPlanCheckBlock = document.getElementById("techPlanCheckBlock");
-const techPlanCheck = document.getElementById("techPlanCheck");
-const innerTechPlan = document.getElementById("innerTechPlan");
-const innerTechVolume = document.getElementById("innerTechVolume");
-const innerTechSum = document.getElementById("innerTechSum");
-const techPassportCheckBlock = document.getElementById("techPassportCheckBlock");
-const techPassportCheck = document.getElementById("techPassportCheck");
-const innerTechPassport = document.getElementById("innerTechPassport");
-const innerPassportVolume = document.getElementById("innerPassportVolume");
-const innerPassportSum = document.getElementById("innerPassportSum");
-const blocksCountBlock = document.getElementById("blocksCountBlock");
-const blocksCountInput = document.getElementById("blocksCount");
-const garageRegisteredBlock = document.getElementById("garageRegisteredBlock");
-const garageRegisteredCheck = document.getElementById("garageRegistered");
-const legalExtraBlock = document.getElementById("legalExtraBlock");
 const legalExtraCheck = document.getElementById("legalExtra");
-const currentPriceBlock = document.querySelector(".current-price");
-const currentTotal = document.getElementById("currentTotal");
-const cartDiv = document.getElementById("cart");
 const totalEl = document.getElementById("total");
 
-// Функции
+// Заполнение услуг в зависимости от вида работ
 function updateServices() {
-  const wt = workTypeSelect.value;
-  serviceBlock.classList.toggle("hidden", !wt);
+  const type = workTypeSelect.value;
+  serviceBlock.classList.toggle("hidden", !type);
   serviceSelect.innerHTML = "";
 
-  if (!wt) return;
+  if (!type) return;
 
-  const list = priceList[wt];
-  for (const k in list) {
+  const list = priceList[type];
+  for (const key in list) {
     const opt = document.createElement("option");
-    opt.value = k;
-    opt.textContent = list[k].name;
+    opt.value = key;
+    opt.textContent = list[key].name;
     serviceSelect.appendChild(opt);
   }
   updateVisibility();
-  updateCurrentPrice();
+  calc();
 }
 
+// Обновление видимости всех блоков
 function updateVisibility() {
-  const wt = workTypeSelect.value;
+  const type = workTypeSelect.value;
   const key = serviceSelect.value;
-  if (!wt || !key) { hideAll(); currentPriceBlock.classList.add("hidden"); return; }
-
-  const s = priceList[wt][key];
-
-  extraVolumeBlock.classList.toggle("hidden", !s.volumeBase && !s.volumeBaseArea);
-  if (s.volumeBase || s.volumeBaseArea) {
-    extraVolumeLabel.textContent = s.volumeLabel || `Доп. объём (${s.volumeUnit || s.volumeUnitArea}) — база ${s.volumeBase || s.volumeBaseArea} ${s.volumeUnit || s.volumeUnitArea}`;
-  }
-
-  extraPointsBlock.classList.toggle("hidden", !s.volumeBasePoints);
-  if (s.volumeBasePoints) {
-    extraPointsLabel.textContent = `Доп. точки (шт.) — база ${s.volumeBasePoints} шт.`;
-  }
-
-  extraObjectsBlock.classList.toggle("hidden", !s.volumeBaseObjects);
-  if (s.volumeBaseObjects) extraObjectsLabel.textContent = `Доп. объекты — база ${s.volumeBaseObjects} ${s.volumeUnitObjects}`;
-
-  extraPlotsBlock.classList.toggle("hidden", !s.hasExtraPlots);
-  kmBlock.classList.toggle("hidden", !s.hasKm);
-  outingBlock.classList.toggle("hidden", !s.hasOuting);
-  stakesBlock.classList.toggle("hidden", !s.hasStakes);
-  stakesCountBlock.classList.toggle("hidden", !(s.hasStakes && stakesCheck.checked));
-  extractsBlock.classList.toggle("hidden", !s.hasExtracts);
-  extractsCountBlock.classList.toggle("hidden", !(s.hasExtracts && extractsRadios[0].checked));
-  eregBlock.classList.toggle("hidden", !s.hasEreg);
-  eregCountBlock.classList.toggle("hidden", !(s.hasEreg && eregRadios[0].checked));
-  agreementBlock.classList.toggle("hidden", !s.hasAgreement);
-  mejPlanBlock.classList.toggle("hidden", !s.hasMejPlan);
-  heatedAreaBlock.classList.toggle("hidden", !s.hasHeatedArea);
-  execSurveyBlock.classList.toggle("hidden", !s.hasExecSurvey);
-  notificationBlock.classList.toggle("hidden", !s.hasNotification);
-
-  techPlanCheckBlock.classList.toggle("hidden", !s.hasInnerTechPlan);
-  innerTechPlan.classList.toggle("hidden", !(s.hasInnerTechPlan && techPlanCheck.checked));
-
-  techPassportCheckBlock.classList.toggle("hidden", !s.hasInnerTechPassport);
-  innerTechPassport.classList.toggle("hidden", !(s.hasInnerTechPassport && techPassportCheck.checked));
-
-  blocksCountBlock.classList.toggle("hidden", !s.hasBlocksCount);
-  garageRegisteredBlock.classList.toggle("hidden", !s.hasGarageRegistered);
-
-  serviceNote.classList.toggle("hidden", !s.note);
-  if (s.note) serviceNote.textContent = s.note;
-
-  currentPriceBlock.classList.remove("hidden");
-  updateCurrentPrice();
-}
-
-function updateLegalExtraVisibility() {
-  const isJur = clientTypeSelect.value === "jur";
-  legalExtraBlock.classList.toggle("hidden", !isJur);
-  if (!isJur) legalExtraCheck.checked = false;
-  updateCurrentPrice();
-  calcTotal();
-}
-
-function hideAll() {
-  [extraVolumeBlock, extraPointsBlock, extraObjectsBlock, extraPlotsBlock, kmBlock, outingBlock, stakesBlock, stakesCountBlock, extractsBlock, extractsCountBlock, eregBlock, eregCountBlock, agreementBlock, mejPlanBlock, heatedAreaBlock, execSurveyBlock, notificationBlock, techPlanCheckBlock, innerTechPlan, techPassportCheckBlock, innerTechPassport, blocksCountBlock, garageRegisteredBlock].forEach(el => el.classList.add("hidden"));
-  serviceNote.classList.add("hidden");
-  currentPriceBlock.classList.add("hidden");
-}
-
-// Обновление суммы по кольям
-function updateStakesSum() {
-  const count = Number(stakesCountInput.value) || 1;
-  const sum = count * STAKES_PRICE;
-  stakesSum.textContent = `Сумма по кольям: ${sum.toLocaleString('ru-RU')} ₽`;
-}
-
-// Текущая цена услуги
-function updateCurrentPrice() {
-  const wt = workTypeSelect.value;
-  const key = serviceSelect.value;
-  if (!wt || !key) {
-    currentTotal.textContent = "0";
+  if (!type || !key) {
+    hideAll();
     return;
   }
 
-  const s = priceList[wt][key];
-  const isJur = clientTypeSelect.value === "jur";
+  const s = priceList[type][key];
 
-  let price = isJur ? s.base.jur : s.base.fiz;
-
-  // Доп. площадь (extraVolume)
-  if (s.volumeBaseArea || s.volumeBase) {
-    const vol = Number(extraVolumeInput.value) || 0;
-    const pricePerUnit = s.volumePriceArea || s.volumePrice || 0;
-    price += vol * pricePerUnit;
+  // Доп. объём
+  extraVolumeBlock.classList.toggle("hidden", !!s.noVolume);
+  if (!s.noVolume) {
+    extraVolumeLabel.textContent = `Доп. объём (${s.volumeUnit}) — база ${s.volumeBase} ${s.volumeUnit}`;
   }
 
-  if (s.volumeBasePoints) {
-    const points = Number(extraPointsInput.value) || 0;
-    price += points * s.volumePricePoints;
-  }
+  // Доп. участки
+  extraPlotsBlock.classList.toggle("hidden", !s.hasExtraPlots);
 
-  if (s.volumeBaseObjects) {
-    const objects = Number(extraObjectsInput.value) || 0;
-    price += objects * s.volumePriceObjects;
-  }
+  // Км
+  kmBlock.classList.toggle("hidden", !s.hasKm);
 
-  if (s.hasExtraPlots) {
-    const ep = Number(extraPlotsInput.value) || 0;
-    price += ep * (isJur ? s.extraPlotsPrice.jur : s.extraPlotsPrice.fiz);
-  }
+  // Выписки
+  extractsBlock.classList.toggle("hidden", !s.hasExtracts);
+  extractsCountBlock.classList.toggle("hidden", !(s.hasExtracts && extractsRadios[0].checked));
 
-  if (s.hasKm) {
-    const kmVal = Number(kmInput.value) || 0;
-    price += kmVal * GAS_PRICE;
-  }
+  // Эл. регистрация
+  eregBlock.classList.toggle("hidden", !s.hasEreg);
+  eregCountBlock.classList.toggle("hidden", !(s.hasEreg && eregRadios[0].checked));
 
-  if (s.hasStakes && stakesCheck.checked) {
-    const stakes = Number(stakesCountInput.value) || 1;
-    price += stakes * STAKES_PRICE;
-  }
+  // Соглашение
+  agreementBlock.classList.toggle("hidden", !s.hasAgreement);
 
-  if (s.hasOuting && outingCheck.checked) price += OUTING_PRICE;
+  // Межевой план (для ошибки)
+  mejPlanBlock.classList.toggle("hidden", !s.hasMejPlan);
 
-  if (s.hasExtracts && extractsRadios[0].checked) {
-    const count = Number(extractsCountInput.value) || 1;
-    price += count * EXTRACT_PRICE;
-  }
+  // Справка об отапливаемой площади
+  heatedAreaBlock.classList.toggle("hidden", !s.hasHeatedArea);
 
-  if (s.hasEreg && eregRadios[0].checked) {
-    const count = Number(eregCountInput.value) || 1;
-    price += count * EREG_PRICE;
-  }
+  // Исполнительная съёмка
+  execSurveyBlock.classList.toggle("hidden", !s.hasExecSurvey);
 
-  if (s.hasAgreement && agreementCheck.checked) price += AGREEMENT_PRICE;
-  if (s.hasMejPlan && mejPlanCheck.checked) price += MEJPLAN_PRICE;
-  if (s.hasHeatedArea && heatedAreaCheck.checked) price += HEATED_PRICE;
-  if (s.hasNotification && notificationCheck.checked) price += NOTIFICATION_PRICE;
-
-  if (s.hasExecSurvey && execSurveyCheck.checked) price *= 0.7;
-
-  let innerTechTotal = 0;
-  if (s.hasInnerTechPlan && techPlanCheck.checked) {
-    innerTechTotal = isJur ? INNER_TECH_BASE.jur : INNER_TECH_BASE.fiz;
-    innerTechTotal += (Number(innerTechVolume.value) || 0) * INNER_TECH_VOL_PRICE;
-    price += innerTechTotal;
-  }
-
-  let innerPassportTotal = 0;
-  if (s.hasInnerTechPassport && techPassportCheck.checked) {
-    innerPassportTotal = isJur ? INNER_PASSPORT_BASE.jur : INNER_PASSPORT_BASE.fiz;
-    innerPassportTotal += (Number(innerPassportVolume.value) || 0) * INNER_PASSPORT_VOL_PRICE;
-    price += innerPassportTotal;
-  }
-
-  if (s.hasBlocksCount) {
-    const bc = Number(blocksCountInput.value) || 2;
-    if (bc > 2) price += (bc - 2) * BLOCK_EXTRA_PRICE;
-  }
-
-  if (s.hasGarageRegistered && garageRegisteredCheck.checked) price += GARAGE_DISCOUNT;
-
-  currentTotal.textContent = Math.round(price).toLocaleString('ru-RU');
+  // Уведомления
+  notificationBlock.classList.toggle("hidden", !s.hasNotification);
 }
 
-// Добавление в корзину
-function addToCart() {
-  const wt = workTypeSelect.value;
-  const key = serviceSelect.value;
-  if (!wt || !key) return;
+function hideAll() {
+  extraVolumeBlock.classList.add("hidden");
+  extraPlotsBlock.classList.add("hidden");
+  kmBlock.classList.add("hidden");
+  extractsBlock.classList.add("hidden");
+  extractsCountBlock.classList.add("hidden");
+  eregBlock.classList.add("hidden");
+  eregCountBlock.classList.add("hidden");
+  agreementBlock.classList.add("hidden");
+  mejPlanBlock.classList.add("hidden");
+  heatedAreaBlock.classList.add("hidden");
+  execSurveyBlock.classList.add("hidden");
+  notificationBlock.classList.add("hidden");
+}
 
-  const s = priceList[wt][key];
+// Главная функция расчёта
+function calc() {
+  const type = workTypeSelect.value;
+  const key = serviceSelect.value;
+  if (!type || !key) {
+    totalEl.textContent = "0";
+    return;
+  }
+
+  const s = priceList[type][key];
   const isJur = clientTypeSelect.value === "jur";
 
-  let price = isJur ? s.base.jur : s.base.fiz;
+  let total = isJur ? s.base.jur : s.base.fiz;
 
-  let details = ['База: ' + (isJur ? s.base.jur : s.base.fiz) + ' ₽'];
+  // Доп. объём
+  if (!s.noVolume) {
+    let vol = Number(extraVolumeInput.value) || 0;
+    let volPrice = s.volumePrice;
 
-  if (s.volumeBaseArea || s.volumeBase) {
-    const vol = Number(extraVolumeInput.value) || 0;
-    const cost = vol * (s.volumePriceArea || s.volumePrice || 0);
-    price += cost;
-    if (cost > 0) details.push(`Доп. объем (${vol} ${s.volumeUnitArea || s.volumeUnit}): ${cost} ₽`);
-  }
-
-  if (s.volumeBasePoints) {
-    const points = Number(extraPointsInput.value) || 0;
-    const cost = points * s.volumePricePoints;
-    price += cost;
-    if (cost > 0) details.push(`Доп. точки (${points} шт.): ${cost} ₽`);
-  }
-
-  if (s.volumeBaseObjects) {
-    const objects = Number(extraObjectsInput.value) || 0;
-    const cost = objects * s.volumePriceObjects;
-    price += cost;
-    if (cost > 0) details.push(`Доп. объекты (${objects} ${s.volumeUnitObjects}): ${cost} ₽`);
-  }
-
-  if (s.hasExtraPlots) {
-    const ep = Number(extraPlotsInput.value) || 0;
-    const epPrice = isJur ? s.extraPlotsPrice.jur : s.extraPlotsPrice.fiz;
-    const epCost = ep * epPrice;
-    price += epCost;
-    if (epCost > 0) details.push(`Доп. участки (${ep} шт.): ${epCost} ₽`);
-  }
-
-  if (s.hasKm) {
-    const kmVal = Number(kmInput.value) || 0;
-    const cost = kmVal * GAS_PRICE;
-    price += cost;
-    if (cost > 0) details.push(`ГСМ: ${cost} ₽`);
-  }
-
-  if (s.hasStakes && stakesCheck.checked) {
-    const stakes = Number(stakesCountInput.value) || 1;
-    const cost = stakes * STAKES_PRICE;
-    price += cost;
-    details.push(`Колья (${stakes} шт.): ${cost} ₽`);
-  }
-
-  if (s.hasOuting && outingCheck.checked) {
-    price += OUTING_PRICE;
-    details.push('Выезд: +1000 ₽');
-  }
-
-  if (s.hasExtracts && extractsRadios[0].checked) {
-    const count = Number(extractsCountInput.value) || 1;
-    const cost = count * EXTRACT_PRICE;
-    price += cost;
-    details.push(`Выписки (${count} шт.): ${cost} ₽`);
-  }
-
-  if (s.hasEreg && eregRadios[0].checked) {
-    const count = Number(eregCountInput.value) || 1;
-    const cost = count * EREG_PRICE;
-    price += cost;
-    details.push(`Эл. регистрация (${count} объекта): ${cost} ₽`);
-  }
-
-  if (s.hasAgreement && agreementCheck.checked) {
-    price += AGREEMENT_PRICE;
-    details.push('Соглашение: +1500 ₽');
-  }
-
-  if (s.hasMejPlan && mejPlanCheck.checked) {
-    price += MEJPLAN_PRICE;
-    details.push('Межевой план: +8000 ₽');
-  }
-
-  if (s.hasHeatedArea && heatedAreaCheck.checked) {
-    price += HEATED_PRICE;
-    details.push('Справка об отапливаемой площади: +1500 ₽');
-  }
-
-  if (s.hasNotification && notificationCheck.checked) {
-    price += NOTIFICATION_PRICE;
-    details.push('Уведомления: +5000 ₽');
-  }
-
-  if (s.hasExecSurvey && execSurveyCheck.checked) {
-    price *= 0.7;
-    details.push('Есть исполнительная съёмка: -30%');
-  }
-
-  let innerTechTotal = 0;
-  if (s.hasInnerTechPlan && techPlanCheck.checked) {
-    innerTechTotal = isJur ? INNER_TECH_BASE.jur : INNER_TECH_BASE.fiz;
-    innerTechTotal += (Number(innerTechVolume.value) || 0) * INNER_TECH_VOL_PRICE;
-    price += innerTechTotal;
-    details.push(`Внутренний техплан: ${innerTechTotal} ₽`);
-  }
-
-  let innerPassportTotal = 0;
-  if (s.hasInnerTechPassport && techPassportCheck.checked) {
-    innerPassportTotal = isJur ? INNER_PASSPORT_BASE.jur : INNER_PASSPORT_BASE.fiz;
-    innerPassportTotal += (Number(innerPassportVolume.value) || 0) * INNER_PASSPORT_VOL_PRICE;
-    price += innerPassportTotal;
-    details.push(`Внутренний техпаспорт: ${innerPassportTotal} ₽`);
-  }
-
-  if (s.hasBlocksCount) {
-    const bc = Number(blocksCountInput.value) || 2;
-    if (bc > 2) {
-      const blockCost = (bc - 2) * BLOCK_EXTRA_PRICE;
-      price += blockCost;
-      details.push(`Блоки: ${blockCost} ₽`);
+    // Особенность привязки к ЗУ
+    if (s.volumeThreshold && vol > s.volumeThreshold - s.volumeBase) {
+      vol -= s.volumeBase; // сверх базы
+      const normalVol = s.volumeThreshold - s.volumeBase;
+      const discountVol = vol - normalVol;
+      total += normalVol * volPrice + discountVol * volPrice * s.volumeDiscountAfterThreshold;
+    } else {
+      total += (vol) * volPrice;
     }
   }
 
-  if (s.hasGarageRegistered && garageRegisteredCheck.checked) {
-    price += GARAGE_DISCOUNT;
-    details.push(`Гараж на учёте: ${GARAGE_DISCOUNT} ₽`);
+  // Доп. участки
+  if (s.hasExtraPlots) {
+    const extraP = Number(extraPlotsInput.value) || 0;
+    const extraPlotsPrice = isJur ? s.extraPlotsPrice.jur : s.extraPlotsPrice.fiz;
+    total += extraP * extraPlotsPrice;
   }
 
-  cart.push({
-    name: s.name,
-    price: price,
-    details: details.join(', ')
-  });
-
-  renderCart();
-  calcTotal();
-}
-
-// Удаление из корзины
-function removeFromCart(index) {
-  cart.splice(index, 1);
-  renderCart();
-  calcTotal();
-}
-
-// Отрисовка корзины
-function renderCart() {
-  cartDiv.classList.toggle("hidden", cart.length === 0);
-  cartDiv.innerHTML = '';
-
-  cart.forEach((item, i) => {
-    const div = document.createElement("div");
-    div.className = "cart-item";
-    div.innerHTML = `
-      <h3>${item.name}</h3>
-      <p>${item.details}</p>
-      <p>Цена: ${Math.round(item.price).toLocaleString('ru-RU')} ₽</p>
-      <button class="remove" onclick="removeFromCart(${i})">Удалить</button>
-    `;
-    cartDiv.appendChild(div);
-  });
-}
-
-// Итог по корзине
-function calcTotal() {
-  let total = cart.reduce((sum, item) => sum + item.price, 0);
-
-  if (!legalExtraBlock.classList.contains("hidden") && legalExtraCheck.checked) {
-    total *= LEGAL_EXTRA;
+  // Км
+  if (s.hasKm) {
+    const km = Number(kmInput.value) || 0;
+    total += km * GAS_PRICE;
   }
+
+  // Выписки
+  if (s.hasExtracts) {
+    const needExtracts = extractsRadios[0].checked;
+    const extractsCount = needExtracts ? Number(extractsCountInput.value) || 1 : 0;
+    total += extractsCount * EXTRACT_PRICE;
+  }
+
+  // Эл. регистрация
+  if (s.hasEreg) {
+    const needEreg = eregRadios[0].checked;
+    const eregCount = needEreg ? Number(eregCountInput.value) || 1 : 0;
+    total += eregCount * EREG_PRICE;
+  }
+
+  // Соглашение
+  if (s.hasAgreement && agreementCheck.checked) total += AGREEMENT_PRICE;
+
+  // Межевой план
+  if (s.hasMejPlan && mejPlanCheck.checked) total += MEJPLAN_PRICE;
+
+  // Отапливаемая площадь
+  if (s.hasHeatedArea && heatedAreaCheck.checked) total += HEATED_PRICE;
+
+  // Исполнительная съёмка (+30%)
+  if (s.hasExecSurvey && execSurveyCheck.checked) total *= 1.30;
+
+  // Уведомления
+  if (s.hasNotification && notificationCheck.checked) total += NOTIFICATION_PRICE;
+
+  // +10% за юр.лицо (последним!)
+  if (legalExtraCheck.checked) total *= LEGAL_EXTRA;
 
   totalEl.textContent = Math.round(total).toLocaleString('ru-RU');
 }
 
-// Сброс
 function resetForm() {
   clientTypeSelect.value = "fiz";
   workTypeSelect.value = "";
   serviceSelect.innerHTML = "";
   extraVolumeInput.value = 0;
-  extraPointsInput.value = 0;
-  extraObjectsInput.value = 0;
   extraPlotsInput.value = 0;
   kmInput.value = 0;
-  stakesCheck.checked = false;
-  stakesCountInput.value = 1;
-  outingCheck.checked = false;
   extractsRadios[1].checked = true;
   extractsCountInput.value = 1;
   eregRadios[1].checked = true;
@@ -705,55 +528,22 @@ function resetForm() {
   heatedAreaCheck.checked = false;
   execSurveyCheck.checked = false;
   notificationCheck.checked = false;
-  techPlanCheck.checked = false;
-  innerTechVolume.value = 0;
-  techPassportCheck.checked = false;
-  innerPassportVolume.value = 0;
-  blocksCountInput.value = 2;
-  garageRegisteredCheck.checked = false;
   legalExtraCheck.checked = false;
-  cart = [];
-  renderCart();
   hideAll();
-  serviceNote.classList.add("hidden");
-  updateLegalExtraVisibility();
-  updateCurrentPrice();
-  calcTotal();
+  calc();
 }
 
 // События
-clientTypeSelect.addEventListener("change", () => {
-  updateLegalExtraVisibility();
-  updateServices();
-  updateCurrentPrice();
-  calcTotal();
-});
+clientTypeSelect.addEventListener("change", calc);
 workTypeSelect.addEventListener("change", updateServices);
-serviceSelect.addEventListener("change", () => { updateVisibility(); updateCurrentPrice(); });
-document.querySelectorAll("input, select").forEach(el => {
-  el.addEventListener("input", () => { updateVisibility(); updateCurrentPrice(); });
-  el.addEventListener("change", () => { updateVisibility(); updateCurrentPrice(); });
+serviceSelect.addEventListener("change", () => { updateVisibility(); calc(); });
+document.querySelectorAll("input").forEach(el => {
+  el.addEventListener("input", () => { updateVisibility(); calc(); });
+  el.addEventListener("change", () => { updateVisibility(); calc(); });
 });
-
-stakesCheck.addEventListener("change", () => {
-  stakesCountBlock.classList.toggle("hidden", !stakesCheck.checked);
-  updateStakesSum();
-  updateCurrentPrice();
-});
-stakesCountInput.addEventListener("input", () => {
-  updateStakesSum();
-  updateCurrentPrice();
-});
-
-legalExtraCheck.addEventListener("change", calcTotal);
 
 // Старт
 resetForm();
-updateLegalExtraVisibility();
 </script>
 </body>
 </html>
-
-
-
-
