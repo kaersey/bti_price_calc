@@ -57,7 +57,6 @@
     <div id="serviceNote" class="note hidden" style="text-align:left; margin-top:4px; font-size:12px; white-space: pre-wrap;"></div>
   </div>
 
-  <!-- НОВАЯ ГАЛОЧКА СПЕЦЦЕНЫ -->
   <div id="specialPriceBlock" class="hidden checkbox">
     <label><input type="checkbox" id="specialPriceCheck"> Спец. цена (-1000 ₽)</label>
   </div>
@@ -122,6 +121,12 @@
       <label>Количество объектов</label>
       <input type="number" id="eregCount" min="1" value="1">
     </div>
+  </div>
+
+  <!-- Галочка "Присвоение адреса" перемещена сюда ↓ -->
+
+  <div id="addressAssignmentBlock" class="hidden checkbox">
+    <label><input type="checkbox" id="addressAssignmentCheck"> Присвоение адреса (+3500 ₽)</label>
   </div>
 
   <div id="agreementBlock" class="hidden">
@@ -209,6 +214,7 @@ const GARAGE_DISCOUNT = -2000;
 const OUTING_PRICE = 1000;
 const STAKES_PRICE = 200;
 const SPECIAL_PRICE_DISCOUNT = -1000;
+const ADDRESS_ASSIGNMENT_PRICE = 3500;
 const INNER_TECH_BASE = {fiz:10000, jur:12000};
 const INNER_TECH_VOL_PRICE = 30;
 const INNER_PASSPORT_BASE = {fiz:10000, jur:12000};
@@ -270,7 +276,7 @@ const priceList = {
   }
 };
 
-// DOM элементы (добавили specialPriceCheck и specialPriceBlock)
+// DOM элементы
 const clientTypeSelect       = document.getElementById("clientType");
 const workTypeSelect         = document.getElementById("workType");
 const serviceBlock           = document.getElementById("serviceBlock");
@@ -278,6 +284,8 @@ const serviceSelect          = document.getElementById("service");
 const serviceNote            = document.getElementById("serviceNote");
 const specialPriceBlock      = document.getElementById("specialPriceBlock");
 const specialPriceCheck      = document.getElementById("specialPriceCheck");
+const addressAssignmentBlock = document.getElementById("addressAssignmentBlock");
+const addressAssignmentCheck = document.getElementById("addressAssignmentCheck");
 const extraVolumeBlock       = document.getElementById("extraVolumeBlock");
 const extraVolumeLabel       = document.getElementById("extraVolumeLabel");
 const extraVolumeInput       = document.getElementById("extraVolume");
@@ -361,13 +369,17 @@ function updateVisibility() {
     hideAll();
     currentPriceBlock.classList.add("hidden");
     specialPriceBlock.classList.add("hidden");
+    addressAssignmentBlock.classList.add("hidden");
     return;
   }
 
   const s = priceList[wt][key];
 
-  // Показываем галочку спеццены, когда выбрана услуга
   specialPriceBlock.classList.remove("hidden");
+
+  // Показываем галочку "Присвоение адреса" только для нужных услуг
+  const showAddress = (wt === "land" && key === "division") || (wt === "building" && key === "techPlanBuilding");
+  addressAssignmentBlock.classList.toggle("hidden", !showAddress);
 
   extraVolumeBlock.classList.toggle("hidden", !s.volumeBase && !s.volumeBaseArea);
   if (s.volumeBase || s.volumeBaseArea) {
@@ -420,7 +432,7 @@ function hideAll() {
   [extraVolumeBlock, extraPointsBlock, extraObjectsBlock, extraPlotsBlock, kmBlock, outingBlock, stakesBlock, stakesCountBlock,
    extractsBlock, extractsCountBlock, eregBlock, eregCountBlock, agreementBlock, mejPlanBlock, heatedAreaBlock, execSurveyBlock,
    notificationBlock, techPlanCheckBlock, innerTechPlan, techPassportCheckBlock, innerTechPassport, blocksCountBlock,
-   garageRegisteredBlock, specialPriceBlock].forEach(el => el.classList.add("hidden"));
+   garageRegisteredBlock, specialPriceBlock, addressAssignmentBlock].forEach(el => el.classList.add("hidden"));
   serviceNote.classList.add("hidden");
   currentPriceBlock.classList.add("hidden");
 }
@@ -431,7 +443,6 @@ function updateStakesSum() {
   stakesSum.textContent = `Сумма по кольям: ${sum.toLocaleString('ru-RU')} ₽`;
 }
 
-// Основная функция расчёта цены услуги
 function calculateServicePrice(forCart = false) {
   const wt = workTypeSelect.value;
   const key = serviceSelect.value;
@@ -442,7 +453,6 @@ function calculateServicePrice(forCart = false) {
   let price = isJur ? s.base.jur : s.base.fiz;
   let details = [`База: ${price} ₽`];
 
-  // Доп. объём
   if (s.volumeBaseArea || s.volumeBase) {
     const vol = Number(extraVolumeInput.value) || 0;
     const pricePerUnit = s.volumePriceArea || s.volumePrice || 0;
@@ -561,11 +571,16 @@ function calculateServicePrice(forCart = false) {
     details.push(`Гараж на учёте: ${GARAGE_DISCOUNT} ₽`);
   }
 
-  // СПЕЦЦЕНА -1000 ₽
-  const specialApplied = specialPriceCheck.checked;
-  if (specialApplied) {
+  // Спеццена
+  if (specialPriceCheck.checked) {
     price += SPECIAL_PRICE_DISCOUNT;
     details.push(`Спец. цена: ${SPECIAL_PRICE_DISCOUNT} ₽`);
+  }
+
+  // Присвоение адреса
+  if (addressAssignmentCheck.checked) {
+    price += ADDRESS_ASSIGNMENT_PRICE;
+    details.push(`Присвоение адреса: ${ADDRESS_ASSIGNMENT_PRICE} ₽`);
   }
 
   price = Math.round(price);
@@ -659,6 +674,7 @@ function resetForm() {
   garageRegisteredCheck.checked = false;
   legalExtraCheck.checked = false;
   specialPriceCheck.checked = false;
+  addressAssignmentCheck.checked = false;
   cart = [];
   renderCart();
   hideAll();
@@ -680,9 +696,10 @@ serviceSelect.addEventListener("change", () => {
   updateCurrentPrice();
 });
 specialPriceCheck.addEventListener("change", updateCurrentPrice);
+addressAssignmentCheck.addEventListener("change", updateCurrentPrice);
 
 document.querySelectorAll("input, select").forEach(el => {
-  if (el.id !== "specialPriceCheck") {
+  if (el.id !== "specialPriceCheck" && el.id !== "addressAssignmentCheck") {
     el.addEventListener("input", () => { updateVisibility(); updateCurrentPrice(); });
     el.addEventListener("change", () => { updateVisibility(); updateCurrentPrice(); });
   }
@@ -697,7 +714,7 @@ stakesCountInput.addEventListener("input", () => {
   updateStakesSum();
   updateCurrentPrice();
 });
-legalExtraCheck.addEventListener("change", calcTotal);
+legalExtraCheck.addEventListener("change", calcTotal());
 
 // Старт
 resetForm();
